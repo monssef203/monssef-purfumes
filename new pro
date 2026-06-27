@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MP Fragrance</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #fff; color: #111; }
+
+    /* HEADER */
+    .announcement { background: #111; color: #fff; text-align: center; padding: 10px; font-size: 13px; letter-spacing: 1px; }
+    header { display: flex; align-items: center; justify-content: center; padding: 18px 24px; border-bottom: 1px solid #eee; position: relative; }
+    .logo { font-size: 28px; font-weight: 900; letter-spacing: 3px; }
+    .logo span { display: inline-block; border: 3px solid #111; padding: 4px 10px; }
+
+    /* HERO */
+    .hero { background: #f5f5f5; text-align: center; padding: 60px 24px; }
+    .hero h2 { font-size: 13px; letter-spacing: 3px; text-transform: uppercase; color: #777; margin-bottom: 8px; }
+    .hero h1 { font-size: 36px; font-weight: 900; letter-spacing: 2px; margin-bottom: 12px; }
+    .hero p { font-size: 15px; color: #555; }
+
+    /* COLLECTIONS */
+    .section-title { text-align: center; padding: 48px 24px 24px; font-size: 28px; font-weight: 800; letter-spacing: 1px; }
+    .collection-label { text-align: center; font-size: 13px; letter-spacing: 3px; text-transform: uppercase; color: #999; margin-bottom: 32px; }
+
+    .products { display: flex; flex-wrap: wrap; justify-content: center; gap: 32px; padding: 0 24px 60px; }
+    .product-card { width: 320px; max-width: 100%; background: #fff; border: 1px solid #eee; border-radius: 4px; overflow: hidden; cursor: pointer; transition: box-shadow 0.2s; }
+    .product-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.10); }
+    .product-card img { width: 100%; height: 280px; object-fit: cover; display: block; }
+    .product-info { padding: 20px; }
+    .product-info h3 { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+    .product-info .price { font-size: 16px; color: #111; }
+    .product-info .btn { display: block; width: 100%; margin-top: 16px; padding: 13px; background: #111; color: #fff; border: none; font-size: 14px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; border-radius: 2px; transition: background 0.2s; }
+    .product-info .btn:hover { background: #333; }
+
+    /* MODAL OVERLAY */
+    .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; align-items: center; justify-content: center; padding: 16px; }
+    .overlay.active { display: flex; }
+    .modal { background: #fff; border-radius: 6px; width: 100%; max-width: 480px; padding: 32px 28px; position: relative; max-height: 90vh; overflow-y: auto; }
+    .modal h2 { font-size: 20px; font-weight: 800; margin-bottom: 6px; }
+    .modal .selected-pack { font-size: 13px; color: #777; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 24px; }
+    .modal label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; margin-top: 16px; letter-spacing: 0.5px; }
+    .modal input { width: 100%; padding: 12px 14px; border: 1px solid #ddd; border-radius: 3px; font-size: 15px; outline: none; transition: border 0.2s; }
+    .modal input:focus { border-color: #111; }
+    .cod-badge { display: flex; align-items: center; gap: 10px; background: #f5f5f5; border-radius: 4px; padding: 14px 16px; margin-top: 24px; }
+    .cod-badge .icon { font-size: 22px; }
+    .cod-badge div { font-size: 14px; }
+    .cod-badge strong { display: block; font-weight: 700; }
+    .cod-badge span { color: #777; font-size: 12px; }
+    .modal .submit-btn { display: block; width: 100%; margin-top: 24px; padding: 15px; background: #111; color: #fff; border: none; font-size: 15px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; border-radius: 3px; transition: background 0.2s; }
+    .modal .submit-btn:hover { background: #333; }
+    .close-btn { position: absolute; top: 16px; right: 20px; font-size: 24px; cursor: pointer; color: #aaa; background: none; border: none; line-height: 1; }
+    .close-btn:hover { color: #111; }
+
+    /* SUCCESS */
+    .success-msg { display: none; text-align: center; padding: 24px 0; }
+    .success-msg .checkmark { font-size: 48px; margin-bottom: 12px; }
+    .success-msg h3 { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+    .success-msg p { font-size: 14px; color: #555; }
+
+    /* FOOTER */
+    footer { text-align: center; padding: 24px; border-top: 1px solid #eee; font-size: 13px; color: #aaa; }
+
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 26px; }
+      .product-card { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="announcement">LIVRAISON À DOMICILE – PAIEMENT À LA LIVRAISON</div>
+
+  <header>
+    <div class="logo"><span>MP</span></div>
+  </header>
+
+  <section class="hero">
+    <h2>Collection Exclusive</h2>
+    <h1>MP FRAGRANCE</h1>
+    <p>Découvrez nos packs parfums soigneusement sélectionnés</p>
+  </section>
+
+  <h2 class="section-title">Collections</h2>
+  <p class="collection-label">2 Pack</p>
+
+  <div class="products">
+
+    <div class="product-card" onclick="openModal('Hommes 2 Pack')">
+      <!-- Remplace src par l'URL de ta Photo 2 -->
+      <img src="https://via.placeholder.com/320x280?text=HOMMES+2+PACK" alt="Hommes 2 Pack" id="img-hommes" />
+      <div class="product-info">
+        <h3>Hommes 2 Pack</h3>
+        <p class="price">199,00 DH</p>
+        <button class="btn">Commander</button>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="openModal('Femmes 2 Pack')">
+      <!-- Remplace src par l'URL de ta Photo 3 -->
+      <img src="https://via.placeholder.com/320x280?text=FEMMES+2+PACK" alt="Femmes 2 Pack" id="img-femmes" />
+      <div class="product-info">
+        <h3>Femmes 2 Pack</h3>
+        <p class="price">199,00 DH</p>
+        <button class="btn">Commander</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ORDER MODAL -->
+  <div class="overlay" id="overlay" onclick="closeOnBackdrop(event)">
+    <div class="modal" id="modal">
+      <button class="close-btn" onclick="closeModal()">&#215;</button>
+
+      <div id="form-section">
+        <h2>Passer commande</h2>
+        <p class="selected-pack" id="modal-pack-name"></p>
+
+        <form id="order-form" onsubmit="submitOrder(event)">
+          <label for="fullname">Nom &amp; Prénom</label>
+          <input type="text" id="fullname" placeholder="Ex : Youssef El Amrani" required />
+
+          <label for="city">Ville</label>
+          <input type="text" id="city" placeholder="Ex : Casablanca" required />
+
+          <label for="address">Adresse exacte</label>
+          <input type="text" id="address" placeholder="Ex : Rue 5, Quartier Maarif" required />
+
+          <label for="phone">Numéro de téléphone</label>
+          <input type="tel" id="phone" placeholder="Ex : 06 12 34 56 78" required />
+
+          <div class="cod-badge">
+            <div class="icon">💵</div>
+            <div>
+              <strong>Paiement à la livraison</strong>
+              <span>Cash on Delivery uniquement</span>
+            </div>
+          </div>
+
+          <button type="submit" class="submit-btn">Confirmer la commande — 199 DH</button>
+        </form>
+      </div>
+
+      <div class="success-msg" id="success-msg">
+        <div class="checkmark">✅</div>
+        <h3>Commande confirmée !</h3>
+        <p>Merci pour votre commande.<br>Vous serez contacté(e) sous 24h pour la livraison.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 MP Fragrance — Tous droits réservés
+  </footer>
+
+  <script>
+    function openModal(packName) {
+      document.getElementById('modal-pack-name').textContent = packName;
+      document.getElementById('overlay').classList.add('active');
+      document.getElementById('form-section').style.display = 'block';
+      document.getElementById('success-msg').style.display = 'none';
+      document.getElementById('order-form').reset();
+    }
+    function closeModal() {
+      document.getElementById('overlay').classList.remove('active');
+    }
+    function closeOnBackdrop(e) {
+      if (e.target === document.getElementById('overlay')) closeModal();
+    }
+    function submitOrder(e) {
+      e.preventDefault();
+      document.getElementById('form-section').style.display = 'none';
+      document.getElementById('success-msg').style.display = 'block';
+    }
+  </script>
+
+</body>
+</html>
